@@ -45,4 +45,9 @@ public class CommentsService {
 
         commentsRepository.save(comment);
     }
+
+    public void removeById(Long id) {
+        CommentEntity entity = commentsRepository.findById(id).get();
+        commentsRepository.delete(entity);
+    }
 }

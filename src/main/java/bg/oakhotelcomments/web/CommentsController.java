@@ -56,5 +56,14 @@ public class CommentsController {
         return ResponseEntity.notFound().build();
     }
 
+    @DeleteMapping("/{id}")
+    private ResponseEntity<CommentDTO> removeCommentById(@PathVariable Long id){
+        Optional<CommentEntity> byId = commentsService.findById(id);
+        if(byId.isPresent()){
+            commentsService.removeById(id);
+            return ResponseEntity.ok(mapper.map(byId.get(),CommentDTO.class));
+        }
+        return ResponseEntity.notFound().build();
+    }
 }
 
