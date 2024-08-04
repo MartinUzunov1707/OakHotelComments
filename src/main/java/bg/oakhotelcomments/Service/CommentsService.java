@@ -3,6 +3,7 @@ package bg.oakhotelcomments.Service;
 import bg.oakhotelcomments.Repository.CommentsRepository;
 import bg.oakhotelcomments.model.dto.AddCommentDTO;
 import bg.oakhotelcomments.model.dto.CommentDTO;
+import bg.oakhotelcomments.model.dto.EditCommentDTO;
 import bg.oakhotelcomments.model.entity.CommentEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -39,11 +40,14 @@ public class CommentsService {
     public Optional<CommentEntity> findById(Long id){
         return commentsRepository.findById(id);
     }
-    public void editComment(CommentEntity comment, CommentDTO data){
-        comment.setDescription(data.getDescription());
-        comment.setCreatorId(data.getCreatorId());
-
-        commentsRepository.save(comment);
+    public boolean editComment(EditCommentDTO data, Long id){
+        Optional<CommentEntity> comment  = commentsRepository.findById(id);
+        if(comment.isPresent()){
+            comment.get().setDescription(data.getDescription());
+            commentsRepository.save(comment.get());
+            return true;
+        }
+        return false;
     }
 
     public void removeById(Long id) {

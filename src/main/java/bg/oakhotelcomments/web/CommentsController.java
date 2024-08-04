@@ -3,6 +3,7 @@ package bg.oakhotelcomments.web;
 import bg.oakhotelcomments.Service.CommentsService;
 import bg.oakhotelcomments.model.dto.AddCommentDTO;
 import bg.oakhotelcomments.model.dto.CommentDTO;
+import bg.oakhotelcomments.model.dto.EditCommentDTO;
 import bg.oakhotelcomments.model.entity.CommentEntity;
 import java.util.Optional;
 
@@ -38,11 +39,9 @@ public class CommentsController {
         return ResponseEntity.ok(commentsService.getCommentsByUserId(id));
     }
     @PostMapping("/{id}")
-    private ResponseEntity<CommentDTO> editCommentById(@PathVariable Long id, @RequestBody CommentDTO data){
-        Optional<CommentEntity> byId = commentsService.findById(id);
-        if(byId.isPresent()){
-            commentsService.editComment(byId.get(),data);
-            return ResponseEntity.ok(data);
+    private ResponseEntity<CommentDTO> editCommentById(@PathVariable Long id, @RequestBody EditCommentDTO data){
+        if(commentsService.editComment(data,id)){
+            return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
     }

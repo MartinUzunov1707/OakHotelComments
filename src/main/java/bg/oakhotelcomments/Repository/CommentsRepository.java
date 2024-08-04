@@ -9,4 +9,5 @@ import java.util.List;
 public interface CommentsRepository extends JpaRepository<CommentEntity, Long> {
     public List<CommentEntity> findAllByCreatorId(Long id);
 
+
 }
