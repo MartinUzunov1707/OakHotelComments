@@ -50,8 +50,13 @@ public class CommentsService {
         return false;
     }
 
-    public void removeById(Long id) {
-        CommentEntity entity = commentsRepository.findById(id).get();
-        commentsRepository.delete(entity);
+    public boolean removeById(Long id) {
+        Optional<CommentEntity> entity = commentsRepository.findById(id);
+        if(entity.isPresent()){
+            commentsRepository.delete(entity.get());
+            return true;
+        }
+        else return false;
+
     }
 }
